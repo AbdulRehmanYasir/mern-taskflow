@@ -1,60 +1,247 @@
-# TaskFlow — MERN CRUD App
+<div align="center">
 
-Full-stack MERN app: **React (Vite)** frontend talking to an **Express + MongoDB (Mongoose)** REST API with **JWT auth**.
-Users register/log in, create **projects**, and manage **tasks** inside each project (full CRUD on both).
+# 🚀 TASKFLOW
 
-**Live app:** `<your-frontend-url>`  |  **API:** `<your-backend-url>`
+### MERN Task Management Platform
 
-## Features
-- Frontend uses `fetch` (single wrapper in `client/src/api.js`) to call the API
-- UI updates immediately after every create / update / delete (state synced with server responses)
-- Error handling on both sides
-  - Server: central `errorHandler` (validation, bad IDs, duplicates, JWT errors) → `{ success:false, message }`
-  - Client: error banners on auth, projects and tasks; auto-logout on expired token; network-failure message
-- Auth: register, login, protected routes, data scoped per user
-- Task extras: status/priority/due date, status filter tabs, quick status dropdown
+A full-stack task management application built with **React, Node.js, Express, MongoDB, and JWT authentication**.
 
-## Structure
+Users can register, create projects, and manage tasks through a complete REST API with real-time UI updates.
+
+**Plan. Manage. Track. Complete.**
+
+</div>
+
+---
+
+## 📌 About
+
+**TaskFlow** is a full-stack MERN CRUD application built as part of my **Dev Weekends Fellowship**.
+
+The project connects a React + Vite frontend with an Express + MongoDB backend to provide complete CRUD functionality for projects and tasks.
+
+It also includes JWT authentication, task filtering, status and priority management, and client/server-side error handling.
+
+---
+
+## ✨ Features
+
+* 🔐 JWT authentication
+* 👤 User-specific data
+* 📁 Project CRUD
+* ✅ Task CRUD
+* 🎯 Task status & priority
+* 📅 Due dates
+* 🔎 Task filtering
+* ⚡ Quick status updates
+* 🔄 UI synchronization after CRUD operations
+* 🛡 Client & server error handling
+* 📡 REST API integration
+* 📱 Responsive interface
+
+---
+
+## 🔄 Application Flow
+
+```text
+React Frontend
+      ↓
+Fetch API
+      ↓
+Express REST API
+      ↓
+JWT Authentication
+      ↓
+Controllers
+      ↓
+Mongoose
+      ↓
+MongoDB
+      ↓
+Updated React UI
 ```
-server/   Express API (models, controllers, routes, middleware)
-client/   React app (components, auth context, api wrapper)
+
+---
+
+## 🏗 Project Structure
+
+```text
+mern-taskflow/
+│
+├── client/          # React + Vite frontend
+│   └── src/
+│
+├── server/          # Express + MongoDB backend
+│   └── src/
+│       ├── controllers/
+│       ├── middleware/
+│       ├── models/
+│       └── routes/
+│
+├── .gitignore
+└── README.md
 ```
 
-## Run locally
-**Backend**
+---
+
+## 🛠 Tech Stack
+
+| Technology | Usage             |
+| ---------- | ----------------- |
+| React      | Frontend          |
+| Vite       | Frontend tooling  |
+| Node.js    | Backend runtime   |
+| Express.js | REST API          |
+| MongoDB    | Database          |
+| Mongoose   | MongoDB ODM       |
+| JWT        | Authentication    |
+| Fetch API  | API communication |
+
+---
+
+## 📡 API
+
+### Authentication
+
+| Method | Endpoint             | Auth |
+| ------ | -------------------- | ---- |
+| POST   | `/api/auth/register` | No   |
+| POST   | `/api/auth/login`    | No   |
+| GET    | `/api/auth/me`       | Yes  |
+
+### Projects
+
+| Method             | Endpoint            | Auth |
+| ------------------ | ------------------- | ---- |
+| GET / POST         | `/api/projects`     | Yes  |
+| GET / PUT / DELETE | `/api/projects/:id` | Yes  |
+
+### Tasks
+
+| Method             | Endpoint         | Auth |
+| ------------------ | ---------------- | ---- |
+| GET / POST         | `/api/tasks`     | Yes  |
+| GET / PUT / DELETE | `/api/tasks/:id` | Yes  |
+
+Task filtering supports:
+
+```text
+?project=
+?status=
+?priority=
+?sort=
+?page=
+?limit=
+```
+
+---
+
+## ⚙️ Run Locally
+
+### Backend
+
 ```bash
 cd server
 npm install
-cp .env.example .env     # set MONGO_URI and JWT_SECRET
-npm run dev              # http://localhost:5000
 ```
-**Frontend**
+
+Create `.env`:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+CLIENT_URL=http://localhost:5173
+```
+
+Run:
+
+```bash
+npm run dev
+```
+
+### Frontend
+
 ```bash
 cd client
 npm install
-cp .env.example .env     # VITE_API_URL=http://localhost:5000/api
-npm run dev              # http://localhost:5173
 ```
 
-## API
-| Method | Route | Auth |
-|--------|-------|------|
-| POST | `/api/auth/register`, `/api/auth/login` | No |
-| GET | `/api/auth/me` | Yes |
-| GET/POST | `/api/projects` | Yes |
-| GET/PUT/DELETE | `/api/projects/:id` | Yes |
-| GET/POST | `/api/tasks` (`?project=&status=&priority=&sort=&page=&limit=`) | Yes |
-| GET/PUT/DELETE | `/api/tasks/:id` | Yes |
+Create `.env`:
 
-## Deployment
-1. **Database — MongoDB Atlas:** create a free cluster, add a DB user, allow access from anywhere (`0.0.0.0/0`), copy the connection string.
-2. **Backend — Render** (New → Web Service, connect the repo):
-   - Root Directory: `server` · Build: `npm install` · Start: `npm start`
-   - Env vars: `MONGO_URI`, `JWT_SECRET`, `CLIENT_URL` (your frontend URL, added after step 3)
-3. **Frontend — Vercel or Netlify** (import the repo):
-   - Root Directory: `client` · Build: `npm run build` · Output: `dist`
-   - Env var: `VITE_API_URL=https://<your-render-app>.onrender.com/api`
-4. Go back to Render and set `CLIENT_URL` to the final frontend URL (no trailing slash), then redeploy.
-5. Put both URLs at the top of this README.
+```env
+VITE_API_URL=http://localhost:5000/api
+```
 
-Note: Render's free tier sleeps after inactivity, so the first request can take ~30–60 s.
+Run:
+
+```bash
+npm run dev
+```
+
+---
+
+## 🌐 Deployment
+
+Planned deployment:
+
+```text
+MongoDB Atlas
+      ↓
+Render Backend
+      ↓
+Vercel Frontend
+```
+
+**Live App:** `To be deployed`
+
+**Backend API:** `To be deployed`
+
+---
+
+## 🎯 Project Goals
+
+TaskFlow was built around a simple idea:
+
+```text
+Plan Your Work
+       ↓
+Organize Projects
+       ↓
+Manage Tasks
+       ↓
+Track Progress
+       ↓
+Keep Data Synchronized
+       ↓
+Get Things Done
+```
+
+The goal is to build a complete full-stack workflow where the **React frontend, Express API, authentication layer, and MongoDB database** work together as one application.
+
+---
+
+## 👨‍💻 Author
+
+<div align="center">
+
+### Abdul Rehman Yasir
+
+**BS Artificial Intelligence Student | Developer**
+
+Building real-world software & AI projects.
+
+[GitHub](https://github.com/AbdulRehmanYasir)
+
+</div>
+
+---
+
+<div align="center">
+
+### 🚀 TASKFLOW
+
+**Plan. Manage. Track. Complete.**
+
+Built with React + Vite + Node.js + Express + MongoDB.
+
+</div>
