@@ -1,3 +1,4 @@
+
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
@@ -9,12 +10,26 @@ const { notFound, errorHandler } = require('./middleware/error');
 
 const app = express();
 
-// Allow the deployed frontend(s): CLIENT_URL can be a comma-separated list
-const origins = process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',').map((o) => o.trim()) : true;
+const origins = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(',').map((o) => o.trim())
+  : true;
+
 app.use(cors({ origin: origins }));
 app.use(express.json());
 
-app.get('/', (req, res) => res.json({ message: 'TaskFlow API is running' }));
+// Ensure MongoDB is connected before handling API requests.
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/', (req, res) => {
+  res.json({ message: 'TaskFlow API is running' });
+});
 
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
